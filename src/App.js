@@ -30,6 +30,7 @@ const App = () => {
 
   const handleLogout = () => {
     setUser(null)
+    window.localStorage.removeItem('loggedInUser')
     // TODO setToken in blog service
   }
 
