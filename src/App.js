@@ -11,8 +11,6 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
 
@@ -43,16 +41,14 @@ const App = () => {
     notify(`Successfully added '${blogObject.title}'`, 'success', 5000)
   }
 
-  const handleLogout = () => {
+  const logout = () => {
     setUser(null)
     window.localStorage.removeItem('loggedInUser')
     blogService.setToken(null)
     notify('Logout Sucessful', 'success', 5000)
   }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
+  const login = async (username, password) => {
     try {
       const user = await loginService.login({
         username, password
@@ -62,15 +58,13 @@ const App = () => {
       )
       setUser(user)
       blogService.setToken(user.token)
-      setUsername('')
-      setPassword('')
       notify('Login Successful', 'success', 5000)
     } catch ( exception ) {
       notify('Wrong Credentials', 'error', 5000)
     }
   }
 
-  const handleDelete = async (blog) => {
+  const deleteBlog = async (blog) => {
     await blogService.destroy(blog.id)
     notify(`Successfully deleted: '${blog.title}'`, 'success', 5000)
     setBlogs(blogs.filter(blogInDb => blogInDb.id !== blog.id ))
@@ -81,22 +75,16 @@ const App = () => {
       {notification && <Notification notification={notification} />}
       <h2>blogs</h2>
       {user === null ?
-        <LoginForm 
-          handleLogin={handleLogin} 
-          username={username} 
-          setUsername={setUsername} 
-          password={password} 
-          setPassword={setPassword} 
-        /> : 
+        <LoginForm login={login} /> : 
         <div>
-          <p>{user.name} logged-in <button onClick={handleLogout}>logout</button></p>
+          <p>{user.name} logged-in <button onClick={logout}>logout</button></p>
           <Togglable buttonLabel='add blog'>
             <AddBlogForm addBlog={addBlog} />
           </Togglable>
         </div>
       }  
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} handleDelete={handleDelete} user={user} />
+        <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog} user={user} />
       )}
     </div>
   )

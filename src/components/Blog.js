@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Blog = ({blog, handleDelete, user}) => {
+const Blog = ({blog, deleteBlog, user}) => {
   return (
     <div>
-      {blog.title} {blog.author} {user && blog.user.id === user.id && <button onClick={() => handleDelete(blog)}> delete </button>}
+      {blog.title} {blog.author} {user && blog.user.id === user.id && <button onClick={() => deleteBlog(blog)}> delete </button>}
     </div>  
   )
 }
