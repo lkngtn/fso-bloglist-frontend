@@ -20,5 +20,13 @@ const create = async (newObject) => {
   return response.data 
 }
 
+const destroy = async (id) => {
+  const config = {
+    headers: { Authorization: token}, 
+  }
+  const response = axios.delete(`${baseUrl}/${id}`, config)
+  return response.data
+}
+
 // eslint-disable-next-line
-export default { getAll, create, setToken }
+export default { getAll, create, destroy, setToken }

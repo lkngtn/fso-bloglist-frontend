@@ -64,6 +64,12 @@ const App = () => {
     }
   }
 
+  const handleDelete = async (blog) => {
+    await blogService.destroy(blog.id)
+    notify(`Successfully deleted: '${blog.title}'`, 'success', 5000)
+    setBlogs(blogs.filter(blogInDb => blogInDb.id !== blog.id ))
+  }
+
   return (
     <div>
       {notification && <Notification notification={notification} />}
@@ -83,7 +89,7 @@ const App = () => {
         </div>
       }  
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleDelete={handleDelete} />
       )}
     </div>
   )
