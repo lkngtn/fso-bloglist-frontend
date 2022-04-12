@@ -4,6 +4,7 @@ import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -81,11 +82,12 @@ const App = () => {
           setUsername={setUsername} 
           password={password} 
           setPassword={setPassword} 
-        /> 
-      : 
+        /> : 
         <div>
           <p>{user.name} logged-in <button onClick={handleLogout}>logout</button></p>
-          <AddBlogForm blogs={blogs} setBlogs={setBlogs} notify={notify} />
+          <Togglable buttonLabel='Add Blog'>
+            <AddBlogForm blogs={blogs} setBlogs={setBlogs} notify={notify} />
+          </Togglable>
         </div>
       }  
       {blogs.map(blog =>
