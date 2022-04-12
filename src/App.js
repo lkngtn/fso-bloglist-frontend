@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
@@ -37,6 +37,7 @@ const App = () => {
   }
 
   const addBlog = async (blogObject) => {
+    addBlogRef.current.toggleVisibility()
     setBlogs(blogs.concat(await blogService.create(blogObject)))
     notify(`Successfully added '${blogObject.title}'`, 'success', 5000)
   }
@@ -70,6 +71,8 @@ const App = () => {
     setBlogs(blogs.filter(blogInDb => blogInDb.id !== blog.id ))
   }
 
+  const addBlogRef = useRef()
+
   return (
     <div>
       {notification && <Notification notification={notification} />}
@@ -78,7 +81,7 @@ const App = () => {
         <LoginForm login={login} /> : 
         <div>
           <p>{user.name} logged-in <button onClick={logout}>logout</button></p>
-          <Togglable buttonLabel='add blog'>
+          <Togglable buttonLabel='add blog' ref={addBlogRef}>
             <AddBlogForm addBlog={addBlog} />
           </Togglable>
         </div>
