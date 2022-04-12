@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import AddBlogForm from './components/AddBlogForm'
+import Notification from './components/Notification'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -12,7 +13,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -29,10 +30,18 @@ const App = () => {
     }
   }, [])
 
+  const notify = (message, type, duration) => {
+    setNotification({ message: message, type: type })
+    setTimeout(() => {
+      setNotification(null)
+    }, duration)
+  }
+
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('loggedInUser')
     blogService.setToken(null)
+    notify('Logout Sucessful', 'success', 5000)
   }
 
   const handleLogin = async (event) => {
@@ -49,17 +58,15 @@ const App = () => {
       blogService.setToken(user.token)
       setUsername('')
       setPassword('')
+      notify('Login Successful', 'success', 5000)
     } catch ( exception ) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      notify('Wrong Credentials', 'error', 5000)
     }
   }
 
   return (
     <div>
-      {errorMessage && <span>{errorMessage}</span>}
+      {notification && <Notification notification={notification} />}
       <h2>blogs</h2>
       {user === null ?
         <LoginForm 
@@ -72,7 +79,7 @@ const App = () => {
       : 
         <div>
           <p>{user.name} logged-in <button onClick={handleLogout}>logout</button></p>
-          <AddBlogForm />
+          <AddBlogForm blogs={blogs} setBlogs={setBlogs} notify={notify} />
         </div>
       }  
       {blogs.map(blog =>
