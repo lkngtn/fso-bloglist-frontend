@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 
-const AddBlogForm = ({ blogs, setBlogs, notify }) => {
+const AddBlogForm = ({ addBlog }) => {
 
   const emptyBlog = {
     title: '',
@@ -17,13 +16,13 @@ const AddBlogForm = ({ blogs, setBlogs, notify }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    setBlogs(blogs.concat(await blogService.create(newBlog)))
-    notify(`Successfully added '${newBlog.title}'`, 'success', 5000)
+    addBlog(newBlog)
     setNewBlog(emptyBlog)
   }
 
   return (
     <form onSubmit={handleSubmit}>
+      <h3>Add Blog</h3>
       <div>
         title:
           <input
@@ -51,7 +50,7 @@ const AddBlogForm = ({ blogs, setBlogs, notify }) => {
           onChange={handleChange}
         />
       </div>
-      <button type="submit">Add blog</button>
+      <button type="submit">add blog</button>
     </form>
   )
 }

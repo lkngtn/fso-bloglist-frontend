@@ -38,6 +38,11 @@ const App = () => {
     }, duration)
   }
 
+  const addBlog = async (blogObject) => {
+    setBlogs(blogs.concat(await blogService.create(blogObject)))
+    notify(`Successfully added '${blogObject.title}'`, 'success', 5000)
+  }
+
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('loggedInUser')
@@ -85,8 +90,8 @@ const App = () => {
         /> : 
         <div>
           <p>{user.name} logged-in <button onClick={handleLogout}>logout</button></p>
-          <Togglable buttonLabel='Add Blog'>
-            <AddBlogForm blogs={blogs} setBlogs={setBlogs} notify={notify} />
+          <Togglable buttonLabel='add blog'>
+            <AddBlogForm addBlog={addBlog} />
           </Togglable>
         </div>
       }  
