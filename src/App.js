@@ -42,6 +42,16 @@ const App = () => {
     notify(`Successfully added '${blogObject.title}'`, 'success', 5000)
   }
 
+  const addLike = async (blogObject) => {
+    const likedBlog = {...blogObject, likes: blogObject.likes + 1, user: blogObject.user.id}
+    const updatedBlog = await blogService.update(blogObject.id, likedBlog)
+    setBlogs(blogs.reduce( (updatedBlogs, blog) => {
+      return blog.id === updatedBlog.id ? 
+      updatedBlogs.concat(updatedBlog) : 
+      updatedBlogs.concat(blog)},
+      []))
+  }
+
   const logout = () => {
     setUser(null)
     window.localStorage.removeItem('loggedInUser')
@@ -87,7 +97,7 @@ const App = () => {
         </div>
       }  
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog} user={user} />
+        <Blog key={blog.id} blog={blog} addLike={addLike} deleteBlog={deleteBlog} user={user} />
       )}
     </div>
   )
