@@ -17,12 +17,12 @@ const create = async (newObject) => {
     headers: { Authorization: token },
   }
   const response = await axios.post(baseUrl, newObject, config)
-  return response.data 
+  return response.data
 }
 
 const destroy = async (id) => {
   const config = {
-    headers: { Authorization: token}, 
+    headers: { Authorization: token },
   }
   const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data

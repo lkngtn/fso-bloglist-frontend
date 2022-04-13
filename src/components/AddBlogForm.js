@@ -11,7 +11,7 @@ const AddBlogForm = ({ addBlog }) => {
   const [newBlog, setNewBlog] = useState(emptyBlog)
 
   const handleChange = (event) => {
-    setNewBlog({...newBlog, [event.target.name]: event.target.value})
+    setNewBlog({ ...newBlog, [event.target.name]: event.target.value })
   }
 
   const handleSubmit = async (event) => {
@@ -25,7 +25,7 @@ const AddBlogForm = ({ addBlog }) => {
       <h3>Add Blog</h3>
       <div>
         title:
-          <input
+        <input
           type="text"
           value={newBlog.title}
           name="title"
@@ -34,7 +34,7 @@ const AddBlogForm = ({ addBlog }) => {
       </div>
       <div>
         author:
-          <input
+        <input
           type="text"
           value={newBlog.author}
           name="author"
@@ -43,7 +43,7 @@ const AddBlogForm = ({ addBlog }) => {
       </div>
       <div>
         url:
-          <input
+        <input
           type="text"
           value={newBlog.url}
           name="url"

@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a,b) => b.likes - a.likes))
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -43,13 +43,13 @@ const App = () => {
   }
 
   const addLike = async (blogObject) => {
-    const likedBlog = {...blogObject, likes: blogObject.likes + 1, user: blogObject.user.id}
+    const likedBlog = { ...blogObject, likes: blogObject.likes + 1, user: blogObject.user.id }
     const updatedBlog = await blogService.update(blogObject.id, likedBlog)
     setBlogs(blogs.reduce( (updatedBlogs, blog) => {
-      return blog.id === updatedBlog.id ? 
-      updatedBlogs.concat(updatedBlog) : 
-      updatedBlogs.concat(blog)},
-      []).sort((a,b) => b.likes - a.likes ))
+      return blog.id === updatedBlog.id ?
+        updatedBlogs.concat(updatedBlog) :
+        updatedBlogs.concat(blog)},
+    []).sort((a,b) => b.likes - a.likes ))
   }
 
   const logout = () => {
@@ -90,14 +90,14 @@ const App = () => {
       {notification && <Notification notification={notification} />}
       <h2>blogs</h2>
       {user === null ?
-        <LoginForm login={login} /> : 
+        <LoginForm login={login} /> :
         <div>
           <p>{user.name} logged-in <button onClick={logout}>logout</button></p>
           <Togglable showLabel='add blog' hideLabel='cancel' ref={addBlogRef}>
             <AddBlogForm addBlog={addBlog} />
           </Togglable>
         </div>
-      }  
+      }
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} addLike={addLike} deleteBlog={deleteBlog} user={user} />
       )}
