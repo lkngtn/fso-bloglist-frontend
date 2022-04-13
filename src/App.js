@@ -76,9 +76,11 @@ const App = () => {
   }
 
   const deleteBlog = async (blog) => {
-    await blogService.destroy(blog.id)
-    notify(`Successfully deleted: '${blog.title}'`, 'success', 5000)
-    setBlogs(blogs.filter(blogInDb => blogInDb.id !== blog.id ))
+    if (window.confirm(`Are you sure you want to delete ${blog.title}`)) {
+      await blogService.destroy(blog.id)
+      notify(`Successfully deleted: '${blog.title}'`, 'success', 5000)
+      setBlogs(blogs.filter(blogInDb => blogInDb.id !== blog.id ))
+    }
   }
 
   const addBlogRef = useRef()
