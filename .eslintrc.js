@@ -3,11 +3,14 @@ module.exports = {
   "env": {
       "browser": true,
       "es6": true,
-      "jest/globals": true 
+      "jest/globals": true,
+      "cypress/globals": true
+      
   },
   "extends": [ 
       "eslint:recommended",
       "plugin:react/recommended",
+      "plugin:cypress/recommended",
       "plugin:jest/recommended"
   ],
   "parserOptions": {
@@ -18,7 +21,7 @@ module.exports = {
       "sourceType": "module"
   },
   "plugins": [
-    "jest", "react"
+    "jest", "react", "cypress"
   ],
   "rules": {
       "indent": [
@@ -47,7 +50,8 @@ module.exports = {
       ],
       "no-console": 0,
       "react/prop-types": 0,
-      "react/react-in-jsx-scope": "off"
+      "react/react-in-jsx-scope": "off",
+      "jest/expect-expect": "off"
   },
   "settings": {
     "react": {
